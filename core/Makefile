@@ -21,7 +21,7 @@ else
   FILE_NAME_TAG := $(BUILD_NUMBER)
 endif
 
-is_tests_build := $(filter tests,$(MAKECMDGOALS))
+is_tests_build := $(filter tests,$(MAKEAXXIONDGOALS))
 
 # -----------------------------------------------------------------
 # Define rules to copy PRODUCT_COPY_FILES defined by the product.
@@ -194,7 +194,7 @@ $(INSTALLED_BUILD_PROP_TARGET): $(BUILDINFO_SH) $(INTERNAL_BUILD_ID_MAKEFILE) $(
 	@mkdir -p $(dir $@)
 	$(hide) TARGET_BUILD_TYPE="$(TARGET_BUILD_VARIANT)" \
 			TARGET_DEVICE="$(TARGET_VENDOR_DEVICE_NAME)" \
-			CM_DEVICE="$(TARGET_DEVICE)" \
+			AXXION_DEVICE="$(TARGET_DEVICE)" \
 			PRODUCT_NAME="$(TARGET_VENDOR_PRODUCT_NAME)" \
 			PRODUCT_BRAND="$(PRODUCT_BRAND)" \
 			PRODUCT_DEFAULT_LANGUAGE="$(call default-locale-language,$(PRODUCT_LOCALES))" \
@@ -432,9 +432,9 @@ INTERNAL_BOOTIMAGE_ARGS := \
 
 INTERNAL_BOOTIMAGE_FILES := $(filter-out --%,$(INTERNAL_BOOTIMAGE_ARGS))
 
-BOARD_KERNEL_CMDLINE := $(strip $(BOARD_KERNEL_CMDLINE))
-ifdef BOARD_KERNEL_CMDLINE
-  INTERNAL_BOOTIMAGE_ARGS += --cmdline "$(BOARD_KERNEL_CMDLINE)"
+BOARD_KERNEL_AXXIONDLINE := $(strip $(BOARD_KERNEL_AXXIONDLINE))
+ifdef BOARD_KERNEL_AXXIONDLINE
+  INTERNAL_BOOTIMAGE_ARGS += --AXXIONdline "$(BOARD_KERNEL_AXXIONDLINE)"
 endif
 
 BOARD_KERNEL_BASE := $(strip $(BOARD_KERNEL_BASE))
@@ -709,8 +709,8 @@ INTERNAL_RECOVERYIMAGE_ARGS := \
 	--ramdisk $(recovery_ramdisk)
 
 # Assumes this has already been stripped
-ifdef BOARD_KERNEL_CMDLINE
-  INTERNAL_RECOVERYIMAGE_ARGS += --cmdline "$(BOARD_KERNEL_CMDLINE)"
+ifdef BOARD_KERNEL_AXXIONDLINE
+  INTERNAL_RECOVERYIMAGE_ARGS += --AXXIONdline "$(BOARD_KERNEL_AXXIONDLINE)"
 endif
 ifdef BOARD_KERNEL_BASE
   INTERNAL_RECOVERYIMAGE_ARGS += --base $(BOARD_KERNEL_BASE)
@@ -736,7 +736,7 @@ ifneq ($(OTA_PACKAGE_SIGNING_KEY),)
     PRODUCT_EXTRA_RECOVERY_KEYS := $(DEFAULT_SYSTEM_DEV_CERTIFICATE)
 endif
 
-PRODUCT_EXTRA_RECOVERY_KEYS += build/target/product/security/cm
+PRODUCT_EXTRA_RECOVERY_KEYS += build/target/product/security/AXXION
 
 # Generate a file containing the keys that will be read by the
 # recovery binary.
@@ -918,7 +918,7 @@ SYSTEMIMAGE_SOURCE_DIR := $(TARGET_OUT)
 ifneq ($(INSTALLED_RECOVERYIMAGE_TARGET),)
 intermediates := $(call intermediates-dir-for,PACKAGING,recovery_patch)
 ifndef BOARD_CUSTOM_BOOTIMG_MK
-ifeq ($(CM_BUILD),)
+ifeq ($(AXXION_BUILD),)
 RECOVERY_FROM_BOOT_PATCH := $(intermediates)/recovery_from_boot.p
 else
 RECOVERY_FROM_BOOT_PATCH :=
@@ -944,13 +944,13 @@ $(INSTALLED_SYSTEMIMAGE): $(BUILT_SYSTEMIMAGE) $(RECOVERY_FROM_BOOT_PATCH) | $(A
 systemimage: $(INSTALLED_SYSTEMIMAGE)
 
 .PHONY: systemimage-nodeps snod
-systemimage-nodeps snod: $(filter-out systemimage-nodeps snod,$(MAKECMDGOALS)) \
+systemimage-nodeps snod: $(filter-out systemimage-nodeps snod,$(MAKEAXXIONDGOALS)) \
 	            | $(INTERNAL_USERIMAGES_DEPS)
 	@echo "make $@: ignoring dependencies"
 	$(call build-systemimage-target,$(INSTALLED_SYSTEMIMAGE))
 	$(hide) $(call assert-max-image-size,$(INSTALLED_SYSTEMIMAGE),$(BOARD_SYSTEMIMAGE_PARTITION_SIZE),yaffs)
 
-ifneq (,$(filter systemimage-nodeps snod, $(MAKECMDGOALS)))
+ifneq (,$(filter systemimage-nodeps snod, $(MAKEAXXIONDGOALS)))
 ifeq (true,$(WITH_DEXPREOPT))
 $(warning Warning: with dexpreopt enabled, you may need a full rebuild.)
 endif
@@ -977,14 +977,14 @@ $(INSTALLED_SYSTEMTARBALL_TARGET): $(FS_GET_STATS) $(INTERNAL_SYSTEMIMAGE_FILES)
 
 .PHONY: systemtarball-nodeps
 systemtarball-nodeps: $(FS_GET_STATS) \
-                      $(filter-out systemtarball-nodeps stnod,$(MAKECMDGOALS))
+                      $(filter-out systemtarball-nodeps stnod,$(MAKEAXXIONDGOALS))
 	$(build-systemtarball-target)
 
 .PHONY: stnod
 stnod: systemtarball-nodeps
 
 # For platform-java goal, add platform as well
-ifneq (,$(filter platform-java, $(MAKECMDGOALS)))
+ifneq (,$(filter platform-java, $(MAKEAXXIONDGOALS)))
 PLATFORM_ZIP_ADD_JAVA := true
 endif
 
@@ -1018,7 +1018,7 @@ platform: $(INSTALLED_PLATFORM_ZIP)
 platform-java: platform
 
 # Dist the platform.zip
-ifneq (,$(filter platform platform-java, $(MAKECMDGOALS)))
+ifneq (,$(filter platform platform-java, $(MAKEAXXIONDGOALS)))
 $(call dist-for-goals, platform platform-java, $(INSTALLED_PLATFORM_ZIP))
 endif
 
@@ -1028,7 +1028,7 @@ define build-boottarball-target
     $(hide) echo "Target boot fs tarball: $(INSTALLED_BOOTTARBALL_TARGET)"
     $(hide) mkdir -p $(PRODUCT_OUT)/boot
     $(hide) cp -f $(INTERNAL_BOOTIMAGE_FILES) $(PRODUCT_OUT)/boot/.
-    $(hide) echo $(BOARD_KERNEL_CMDLINE) > $(PRODUCT_OUT)/boot/cmdline
+    $(hide) echo $(BOARD_KERNEL_AXXIONDLINE) > $(PRODUCT_OUT)/boot/AXXIONdline
     $(hide) $(MKTARBALL) $(FS_GET_STATS) \
                  $(PRODUCT_OUT) boot $(PRIVATE_BOOT_TAR) \
                  $(INSTALLED_BOOTTARBALL_TARGET)
@@ -1046,7 +1046,7 @@ $(INSTALLED_BOOTTARBALL_TARGET): $(FS_GET_STATS) $(INTERNAL_BOOTIMAGE_FILES)
 
 .PHONY: boottarball-nodeps btnod
 boottarball-nodeps btnod: $(FS_GET_STATS) \
-                      $(filter-out boottarball-nodeps btnod,$(MAKECMDGOALS))
+                      $(filter-out boottarball-nodeps btnod,$(MAKEAXXIONDGOALS))
 	$(build-boottarball-target)
 
 
@@ -1297,8 +1297,8 @@ ifdef INSTALLED_2NDBOOTLOADER_TARGET
 	$(hide) $(ACP) \
 		$(INSTALLED_2NDBOOTLOADER_TARGET) $(zip_root)/RECOVERY/second
 endif
-ifdef BOARD_KERNEL_CMDLINE
-	$(hide) echo "$(BOARD_KERNEL_CMDLINE)" > $(zip_root)/RECOVERY/cmdline
+ifdef BOARD_KERNEL_AXXIONDLINE
+	$(hide) echo "$(BOARD_KERNEL_AXXIONDLINE)" > $(zip_root)/RECOVERY/AXXIONdline
 endif
 ifdef BOARD_KERNEL_BASE
 	$(hide) echo "$(BOARD_KERNEL_BASE)" > $(zip_root)/RECOVERY/base
@@ -1325,8 +1325,8 @@ ifdef INSTALLED_2NDBOOTLOADER_TARGET
 	$(hide) $(ACP) \
 		$(INSTALLED_2NDBOOTLOADER_TARGET) $(zip_root)/BOOT/second
 endif
-ifdef BOARD_KERNEL_CMDLINE
-	$(hide) echo "$(BOARD_KERNEL_CMDLINE)" > $(zip_root)/BOOT/cmdline
+ifdef BOARD_KERNEL_AXXIONDLINE
+	$(hide) echo "$(BOARD_KERNEL_AXXIONDLINE)" > $(zip_root)/BOOT/AXXIONdline
 endif
 ifdef BOARD_KERNEL_BASE
 	$(hide) echo "$(BOARD_KERNEL_BASE)" > $(zip_root)/BOOT/base
@@ -1419,7 +1419,7 @@ endif
 ifeq ($(WITH_GMS),true)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
 else
-ifneq ($(CM_BUILD),)
+ifneq ($(AXXION_BUILD),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -1449,7 +1449,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   --override_device=$(override_device) $(override_prop) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-CM_TARGET_PACKAGE := $(PRODUCT_OUT)/cm-$(CM_VERSION).zip
+AXXION_TARGET_PACKAGE := $(PRODUCT_OUT)/AXXION-$(AXXION_VERSION).zip
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
@@ -1457,9 +1457,9 @@ bacon: otapackage
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 	$(error TARGET_CUSTOM_RELEASETOOL is deprecated)
 endif
-	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(CM_TARGET_PACKAGE)
-	$(hide) $(MD5SUM) $(CM_TARGET_PACKAGE) > $(CM_TARGET_PACKAGE).md5sum
-	@echo -e ${CL_CYN}"Package Complete: $(CM_TARGET_PACKAGE)"${CL_RST}
+	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(AXXION_TARGET_PACKAGE)
+	$(hide) $(MD5SUM) $(AXXION_TARGET_PACKAGE) > $(AXXION_TARGET_PACKAGE).md5sum
+	@echo -e ${CL_CYN}"Package Complete: $(AXXION_TARGET_PACKAGE)"${CL_RST}
 
 # -----------------------------------------------------------------
 # The update package
@@ -1535,7 +1535,7 @@ $(BUILT_TESTS_ZIP_PACKAGE): \
 .PHONY: tests
 tests: $(BUILT_TESTS_ZIP_PACKAGE)
 
-ifneq (,$(filter tests, $(MAKECMDGOALS)))
+ifneq (,$(filter tests, $(MAKEAXXIONDGOALS)))
   $(call dist-for-goals, tests, $(BUILT_TESTS_ZIP_PACKAGE))
 endif
 endif # is_tests_build
@@ -1648,7 +1648,7 @@ endif
 # Old PDK stuffs, retired
 # The pdk package (Platform Development Kit)
 
-#ifneq (,$(filter pdk,$(MAKECMDGOALS)))
+#ifneq (,$(filter pdk,$(MAKEAXXIONDGOALS)))
 #  include development/pdk/Pdk.mk
 #endif
 
@@ -1795,7 +1795,7 @@ $(INTERNAL_SDK_TARGET): $(deps)
 MAIN_SDK_NAME := $(sdk_name)
 MAIN_SDK_DIR  := $(sdk_dir)
 MAIN_SDK_ZIP  := $(INTERNAL_SDK_TARGET)
-ifneq ($(filter win_sdk winsdk-coretools,$(MAKECMDGOALS)),)
+ifneq ($(filter win_sdk winsdk-coretools,$(MAKEAXXIONDGOALS)),)
 include $(TOPDIR)development/build/tools/windows_sdk.mk
 endif
 
