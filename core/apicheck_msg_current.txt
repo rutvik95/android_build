@@ -1,4 +1,3 @@
-
 ******************************
 You have tried to change the API from what has been previously approved.
 
@@ -10,7 +9,7 @@ To make these errors go away, you have two choices:
          make update-api
       ^^^^^^^^^^^^^^^^^^
       NO. NO. STOP BEING LAZY. SERIOUSLY.
-      DO NOT DO THIS in CM. THIS IS A LIE. IF YOU DO THIS I WILL HATE YOU.
+      DO NOT DO THIS in AXXION. THIS IS A LIE. IF YOU DO THIS I WILL HATE YOU.
       USE OPTION #1.
                     -Koush
 
