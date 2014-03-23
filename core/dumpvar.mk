@@ -51,11 +51,11 @@ ANDROID_GCC_PREBUILTS := prebuilts/gcc/$(HOST_PREBUILT_TAG)
 # absolute path to it.
 #
 dumpvar_goals := \
-	$(strip $(patsubst dumpvar-%,%,$(filter dumpvar-%,$(MAKECMDGOALS))))
+	$(strip $(patsubst dumpvar-%,%,$(filter dumpvar-%,$(MAKEAxxionDGOALS))))
 ifdef dumpvar_goals
 
   ifneq ($(words $(dumpvar_goals)),1)
-    $(error Only one "dumpvar-" goal allowed. Saw "$(MAKECMDGOALS)")
+    $(error Only one "dumpvar-" goal allowed. Saw "$(MAKEAxxionDGOALS)")
   endif
 
   # If the goal is of the form "dumpvar-abs-VARNAME", then
@@ -92,7 +92,7 @@ HOST_OS_EXTRA:=$(shell python -c "import platform; print(platform.platform())")
 $(info ============================================)
 $(info   PLATFORM_VERSION_CODENAME=$(PLATFORM_VERSION_CODENAME))
 $(info   PLATFORM_VERSION=$(PLATFORM_VERSION))
-$(info   CM_VERSION=$(CM_VERSION))
+$(info   Axxion_VERSION=$(Axxion_VERSION))
 $(info   TARGET_PRODUCT=$(TARGET_PRODUCT))
 $(info   TARGET_BUILD_VARIANT=$(TARGET_BUILD_VARIANT))
 $(info   TARGET_BUILD_TYPE=$(TARGET_BUILD_TYPE))
