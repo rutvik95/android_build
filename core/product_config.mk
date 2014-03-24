@@ -88,7 +88,7 @@ INTERNAL_VALID_VARIANTS := user userdebug eng
 # Provide "PRODUCT-<prodname>-<goal>" targets, which lets you build
 # a particular configuration without needing to set up the environment.
 #
-product_goals := $(strip $(filter PRODUCT-%,$(MAKECMDGOALS)))
+product_goals := $(strip $(filter PRODUCT-%,$(MAKEAXXIONDGOALS)))
 ifdef product_goals
   # Scrape the product and build names out of the goal,
   # which should be of the form PRODUCT-<productname>-<buildname>.
@@ -116,7 +116,7 @@ ifdef product_goals
   # The build server wants to do make PRODUCT-dream-installclean
   # which really means TARGET_PRODUCT=dream make installclean.
   ifneq ($(filter-out $(INTERNAL_VALID_VARIANTS),$(TARGET_BUILD_VARIANT)),)
-    MAKECMDGOALS := $(MAKECMDGOALS) $(TARGET_BUILD_VARIANT)
+    MAKEAXXIONDGOALS := $(MAKEAXXIONDGOALS) $(TARGET_BUILD_VARIANT)
     TARGET_BUILD_VARIANT := eng
     default_goal_substitution :=
   else
@@ -131,14 +131,14 @@ ifdef product_goals
   # attempt to build, but it's important because we inspect this value
   # in certain situations (like for "make sdk").
   #
-  MAKECMDGOALS := $(patsubst $(goal_name),$(default_goal_substitution),$(MAKECMDGOALS))
+  MAKEAXXIONDGOALS := $(patsubst $(goal_name),$(default_goal_substitution),$(MAKEAXXIONDGOALS))
 
   # Define a rule for the PRODUCT-* goal, and make it depend on the
   # patched-up command-line goals as well as any other goals that we
   # want to force.
   #
 .PHONY: $(goal_name)
-$(goal_name): $(MAKECMDGOALS)
+$(goal_name): $(MAKEAXXIONDGOALS)
 endif
 # else: Use the value set in the environment or buildspec.mk.
 
@@ -146,20 +146,20 @@ endif
 # Provide "APP-<appname>" targets, which lets you build
 # an unbundled app.
 #
-unbundled_goals := $(strip $(filter APP-%,$(MAKECMDGOALS)))
+unbundled_goals := $(strip $(filter APP-%,$(MAKEAXXIONDGOALS)))
 ifdef unbundled_goals
   ifneq ($(words $(unbundled_goals)),1)
     $(error Only one APP-* goal may be specified; saw "$(unbundled_goals)"))
   endif
   TARGET_BUILD_APPS := $(strip $(subst -, ,$(patsubst APP-%,%,$(unbundled_goals))))
-  ifneq ($(filter $(DEFAULT_GOAL),$(MAKECMDGOALS)),)
-    MAKECMDGOALS := $(patsubst $(unbundled_goals),,$(MAKECMDGOALS))
+  ifneq ($(filter $(DEFAULT_GOAL),$(MAKEAXXIONDGOALS)),)
+    MAKEAXXIONDGOALS := $(patsubst $(unbundled_goals),,$(MAKEAXXIONDGOALS))
   else
-    MAKECMDGOALS := $(patsubst $(unbundled_goals),$(DEFAULT_GOAL),$(MAKECMDGOALS))
+    MAKEAXXIONDGOALS := $(patsubst $(unbundled_goals),$(DEFAULT_GOAL),$(MAKEAXXIONDGOALS))
   endif
 
 .PHONY: $(unbundled_goals)
-$(unbundled_goals): $(MAKECMDGOALS)
+$(unbundled_goals): $(MAKEAXXIONDGOALS)
 endif # unbundled_goals
 
 # Default to building dalvikvm on hosts that support it...
@@ -184,16 +184,16 @@ ifneq ($(strip $(TARGET_BUILD_APPS)),)
 all_product_configs := $(call get-product-makefiles,\
     $(SRC_TARGET_DIR)/product/AndroidProducts.mk)
 else
-  ifneq ($(CM_BUILD),)
-    all_product_configs := $(shell ls device/*/$(CM_BUILD)/cm.mk)
+  ifneq ($(AXXION_BUILD),)
+    all_product_configs := $(shell ls device/*/$(AXXION_BUILD)/AXXION.mk)
   else
     # Read in all of the product definitions specified by the AndroidProducts.mk
     # files in the tree.
     all_product_configs := $(get-all-product-makefiles)
-  endif # CM_BUILD
+  endif # AXXION_BUILD
 endif
 
-ifeq ($(CM_BUILD),)
+ifeq ($(AXXION_BUILD),)
 # Find the product config makefile for the current product.
 # all_product_configs consists items like:
 # <product_name>:<path_to_the_product_makefile>
@@ -224,7 +224,7 @@ current_product_makefile := $(strip $(current_product_makefile))
 all_product_makefiles := $(strip $(all_product_makefiles))
 
 
-ifneq (,$(filter product-graph dump-products, $(MAKECMDGOALS)))
+ifneq (,$(filter product-graph dump-products, $(MAKEAXXIONDGOALS)))
 # Import all product makefiles.
 $(call import-products, $(all_product_makefiles))
 else
@@ -241,7 +241,7 @@ endif  # Import all or just the current product makefile
 # Sanity check
 $(check-all-products)
 
-ifneq ($(filter dump-products, $(MAKECMDGOALS)),)
+ifneq ($(filter dump-products, $(MAKEAXXIONDGOALS)),)
 $(dump-products)
 $(error done)
 endif
