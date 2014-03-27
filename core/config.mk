@@ -91,7 +91,7 @@ BUILD_NOTICE_FILE := $(BUILD_SYSTEM)/notice_files.mk
 # The 'showcommands' goal says to show the full command
 # lines being executed, instead of a short message about
 # the kind of operation being done.
-SHOW_COMMANDS:= $(filter showcommands,$(MAKEaxxionDGOALS))
+SHOW_COMMANDS:= $(filter showcommands,$(MAKECMDGOALS))
 
 
 # ###############################################################
@@ -497,10 +497,10 @@ RS_PREBUILT_COMPILER_RT := prebuilts/sdk/renderscript/lib/$(TARGET_ARCH)/libcomp
 # Rules for QCOM targets
 include $(BUILD_SYSTEM)/qcom_target.mk
 
-ifneq ($(axxion_BUILD),)
+ifneq ($(CM_BUILD),)
 ## We need to be sure the global selinux policies are included
 ## last, to avoid accidental resetting by device configs
-$(eval include vendor/axxion/sepolicy/sepolicy.mk)
+$(eval include vendor/cm/sepolicy/sepolicy.mk)
 endif
 
 include $(BUILD_SYSTEM)/dumpvar.mk
