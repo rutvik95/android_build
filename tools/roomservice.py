@@ -34,16 +34,16 @@ except ImportError:
 
 # Config
 # set this to the default remote to use in repo
-default_rem = "axxion"
+default_rem = "github"
 # set this to the default revision to use (branch/tag name)
 default_rev = "cm-11.0"
 # set this to the remote that you use for projects from your team repos
 # example fetch="https://github.com/omnirom"
-default_team_rem = "gh"
+default_team_rem = "omnirom"
 # this shouldn't change unless google makes changes
 local_manifest_dir = ".repo/local_manifests"
 # change this to your name on github (or equivalent hosting)
-android_team = "AxxionKat"
+android_team = "omnirom"
 
 
 def check_repo_exists(git_data):
@@ -175,7 +175,7 @@ def write_to_manifest(manifest):
 
     with open('/'.join([local_manifest_dir, "roomservice.xml"]), 'w') as f:
         f.write(raw_xml)
-    print("Written to local device manifests")
+    print("wrote the new roomservice manifest")
 
 
 def parse_device_from_manifest(device):
@@ -198,13 +198,13 @@ def parse_device_from_folder(device):
     elif len(search) == 1:
         location = search[0]
     else:
-        print("Your device was not found. Attempting to retrieve device repository from AxxionKat Github..")
+        print("you device can't be found in device sources..")
         location = parse_device_from_manifest(device)
     return location
 
 
 def parse_dependency_file(location):
-    dep_file = "axxion.dependencies"
+    dep_file = "omni.dependencies"
     dep_location = '/'.join([location, dep_file])
     if not os.path.isfile(dep_location):
         print("WARNING: %s file not found" % dep_location)
