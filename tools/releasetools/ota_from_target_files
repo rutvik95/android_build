@@ -468,7 +468,24 @@ def WriteFullOTAPackage(input_zip, output_zip):
 
   if "selinux_fc" in OPTIONS.info_dict:
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
-
+    
+  script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+  script.Print("    ___     __  __  __  __  ___ _______  ____  ___               ")
+  script.Print("   / _ \    \ \/ /  \ \/ /  [_] | __   | | \ \ | |               ")
+  script.Print("  / / \ \    \  /    \  /   | | | [  ] | | |\ \| |               ")
+  script.Print(" / /___\ \   /  \    /  \   | | | [  ] | | | \ \ |               ")
+  script.Print("/ /     \ \ / /\ \  / /\ \  | | |______| |_|  \_\|               ")
+  script.Print("                                                                 ")
+  script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+  script.Print("                                                                 ")
+  script.Print("                 <<((- AxxionKat Kitkat ROM -))>>                ")
+  script.Print("                                                                 ")
+  script.Print("               <<<---((- By AxxionKat Team -))--->>>             ")
+  script.Print("                                                                 ")
+  script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
+  script.Print("                                                                 ")
+  script.Print("Starting Axxion Installation...")
+  script.Print("Mounting System...")
   script.FormatPartition("/system")
   script.Mount("/system")
   #script.UnpackPackageDir("recovery", "/system")
