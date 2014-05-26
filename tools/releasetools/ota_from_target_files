@@ -470,11 +470,11 @@ def WriteFullOTAPackage(input_zip, output_zip):
     WritePolicyConfig(OPTIONS.info_dict["selinux_fc"], output_zip)
     
   script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
-  script.Print("    ___     __  __  __  __  ___ _______  ____  ___               ")
-  script.Print("   / _ \    \ \/ /  \ \/ /  [_] | __   | | \ \ | |               ")
-  script.Print("  / / \ \    \  /    \  /   | | | [  ] | | |\ \| |               ")
-  script.Print(" / /___\ \   /  \    /  \   | | | [  ] | | | \ \ |               ")
-  script.Print("/ /     \ \ / /\ \  / /\ \  | | |______| |_|  \_\|               ")
+  script.Print("          ___     __  __  __  __  ___ ________ ____  ___         ")
+  script.Print("         / _ \    \ \/ /  \ \/ /  [_] | ____ | |   \ | |         ")
+  script.Print("        / / \ \    \  /    \  /   | | | [  ] | | |\ \| |         ")
+  script.Print("       / /___\ \   /  \    /  \   | | | [__] | | | \ | |         ")
+  script.Print("      /_/     \_\ /_/\_\  /_/\_\  |_| |______| |_|  \__|         ")
   script.Print("                                                                 ")
   script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
   script.Print("                                                                 ")
@@ -484,7 +484,7 @@ def WriteFullOTAPackage(input_zip, output_zip):
   script.Print("                                                                 ")
   script.Print("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=")
   script.Print("                                                                 ")
-  script.Print("Starting Axxion Installation...")
+  script.Print("Starting Axxionization...")
   script.Print("Mounting System...")
   script.FormatPartition("/system")
   script.Mount("/system")
@@ -966,7 +966,7 @@ def main(argv):
 
   common.Cleanup()
 
-  print "done."
+  print "Enjoy"
 
 
 if __name__ == '__main__':
