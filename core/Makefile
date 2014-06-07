@@ -1417,7 +1417,7 @@ name := $(TARGET_PRODUCT)
 ifeq ($(TARGET_BUILD_TYPE),debug)
   name := $(name)_debug
 endif
-name := $(name)-ota-$(FILE_NAME_TAG)
+name := $(AXXION_VERSION)-$(PRODUCT_OUT)
 
 INTERNAL_OTA_PACKAGE_TARGET := $(PRODUCT_OUT)/$(name).zip
 
@@ -1468,7 +1468,7 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 	   $(separate_recovery) \
 	   $(BUILT_TARGET_FILES_PACKAGE) $@
 
-AXXION_TARGET_PACKAGE := $(PRODUCT_OUT)/$(AXXION_VERSION).zip
+axxion_TARGET_PACKAGE := $(PRODUCT_OUT)/$(AXXION_VERSION)-$(TARGET_DEVICE).zip
 
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
