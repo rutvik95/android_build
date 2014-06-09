@@ -1483,6 +1483,22 @@ endif
 	$(hide) ln -f $(INTERNAL_OTA_PACKAGE_TARGET) $(axxion_TARGET_PACKAGE)
 	$(hide) $(MD5SUM) $(axxion_TARGET_PACKAGE) > $(axxion_TARGET_PACKAGE).md5sum
 	@echo -e ${CL_CYN}"Package Complete: $(axxion_TARGET_PACKAGE)"${CL_RST}
+	$(MD5SUM) $(axxion_TARGET_PACKAGE)	
+
+    @echo -e ${CL_MAG}"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="${CL_RST}
+    @echo -e ${CL_MAG}"          __     __  __  __  __  ___ ________ ____  ___        "${CL_RST}
+    @echo -e ${CL_MAG}"         / _\    \ \/ /  \ \/ /  [_] | ____ | |   \ | |        "${CL_RST}
+    @echo -e ${CL_MAG}"        / /\ \    \  /    \  /   | | | [  ] | | |\ \| |        "${CL_RST}
+    @echo -e ${CL_MAG}"       / /__\ \   /  \    /  \   | | | [__] | | | \ | |        "${CL_RST}
+    @echo -e ${CL_MAG}"      /_/    \_\ /_/\_\  /_/\_\  |_| |______| |_|  \__|        "${CL_RST}
+    @echo -e ${CL_MAG}"                                                               "${CL_RST}
+    @echo -e ${CL_MAG}"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="${CL_RST}
+    @echo -e ${CL_MAG}"                                                               "${CL_RST}
+    @echo -e ${CL_MAG}"  <<((- You have finished building AxxionKat Kitkat ROM -))>>  "${CL_RST}
+    @echo -e ${CL_MAG}"                                                               "${CL_RST}
+    @echo -e ${CL_MAG}" <---((- Thanks for building, enjoy! By AxxionKat Team-))--->  "${CL_RST}
+    @echo -e ${CL_MAG}"                                                               "${CL_RST}
+    @echo -e ${CL_MAG}"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="${CL_RST}
 
 # -----------------------------------------------------------------
 # The update package
